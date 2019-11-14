@@ -1,0 +1,485 @@
+﻿<DocXmlTemplates>
+		<!--
+			Templates for Documentation Xml Comment blocks
+			==============================================
+			These control which entries are added to the doc-comment for each type of code element,
+			and their order.
+			
+			Full documentation can be found in the Atomineer user manual.
+		-->
+		<!-- Global settings for the entry types.
+			 These control the style and formatting of the individual types of entries defined in the templates below.
+			 Each element here should match one of the entries in your template blocks, and should either match the
+			 entry names Atomineer supports (e.g. "summary") or a custom entry type. If you wish to use a different 
+			 name in your entries than Atomineer (e.g. you prefer "brief" to "summary", then use the <summary> element
+			 and set its _tagName attribute to "brief". You can also add a comma-separated list of _aliases to allow
+			 for conversions from legacy comments.
+
+			 Primary settings (see the user manual for more details) are:
+				_optional		true indicates this entry is not to be added by Atomineer, but shuld be preserved
+								false indicates that this entry type is required, so Atomineer should automtaically add it
+				_punctuate		true/false to control automatic punctuation insertion
+				_wordwrap		true/false to control whether word-wrapping is applied to the description
+				_copyFromBase	true/fase to control whether this type of entry can be copied from base-class documentation
+
+				_tagName		The entry tag you want to use in your documentation, e.g. for Atomineer's "summary" you might
+								prefer to use the tag "description"
+				_aliases		A comma-separated list of other tags that should be considered equivalent (to convert legacy comments)
+		-->
+		<EntrySettings>
+			<author _punctuate="false" _optional="true" />
+			<date _punctuate="false" _optional="true" />
+			<remarks _optional="true" />
+			<summary _tagName="summary" _aliases="brief,desc,description,details,purpose" _style="multiline" />
+			<exception _tagName="exception" _aliases="except,excepts,exceptions,throw,throws" />
+			<param _tagName="param" _aliases="parameter" />
+			<typeparam _tagName="typeparam" _aliases="tparam" />
+			<returns _tagName="returns" _aliases="retval,value" />
+			<content _optional="true" />
+			<example _punctuate="false" _optional="true" _tagName="example" />
+			<seealso _punctuate="false" _optional="true" _tagName="seealso" />
+			<inheritdoc _punctuate="false" _optional="true" _tagName="inheritdoc" />
+		</EntrySettings>
+
+		<!-- File Header: Special case for Python -->
+		<file _filetypes=".py" _separators="false">
+			#---------------------------------------------------------------------------------------------------
+			# file:	%projectpathname%
+			#
+			# summary:	%fileDescription%
+			#---------------------------------------------------------------------------------------------------
+		</file>
+
+		<!-- File Header: Special case for Visual Basic -->
+		<file-vb _separators="false">
+			'---------------------------------------------------------------------------------------------------
+			' file:		%projectpathname%
+			'
+			' summary:	%fileDescription%
+			'---------------------------------------------------------------------------------------------------
+		</file-vb>
+
+		<!-- File Header: Special Case for StyleCop-compatible mode.
+			 Note that this uses &lt; and &gt; so that it will be treated as plain text rather than XML
+		-->
+		<file stylecop="true">
+			// &lt;copyright file="%leafname%%extension%" company="%company%"&gt;
+			// %copyright%
+			// &lt;/copyright&gt;
+			// &lt;author&gt;%user%&lt;/author&gt;
+			// &lt;date&gt;%date%&lt;/date&gt;
+			// &lt;summary&gt;%fileDescription%&lt;/summary&gt;
+		</file>
+
+		<!-- File Header: Catch-all plain-text Atomineer headers. See below for other examples -->
+		<file>
+			// file:	%projectpathname%
+			//
+			// summary:	%fileDescription%
+		</file>
+
+		<!-- File Header Example: Special header and footer pair for .h and .hpp files, which will automatically
+			 add an include-once mechanism to the file.
+
+		<file _filetypes=".h.hpp" _addfooter="true" _separators="false">
+			// file:	%projectpathname%
+			//
+			// summary:	%fileDescription%
+
+			#ifndef INC_%leafname%_H
+			#define INC_%leafname%_H
+
+		</file>
+		<filefooter _filetypes=".h.hpp" _separators="false">
+			// end of %projectpathname%
+			#endif	// INC_%leafname%_H
+		</filefooter>
+		-->
+
+		<!-- Free-form text file header example
+		<file>
+			// project:	%project%
+			// file:	%projectpathname%
+			//
+			// summary:	%fileDescription%
+			//
+			//			%copyright%
+			//
+			//			Date		Developer		Change
+			//			%date%	%user%	Created
+		</file>
+		-->
+
+		<!-- XML comment example
+		<file>
+			<prototype>%projectpathname%</prototype>
+			<_/>
+			<summary/>
+		</file>
+		-->
+
+		<!-- Catch-all plain-text file footers. These follow the same form as the file headers above -->
+		<filefooter _filetypes=".py" _separators="false">
+			# end of %projectpathname%
+		</filefooter>
+
+		<filefooter-vb _separators="false">
+			'---------------------------------------------------------------------------------------------------
+			' End of %projectpathname%
+		</filefooter-vb>
+
+		<filefooter>
+			// End of %projectpathname%
+		</filefooter>
+
+
+		<!--
+			Comment template for catch-all comments. These are added when the filetype of the document
+			is not one of the core languages that Atomineer can parse to auto-document. The separators
+			and line headers used for each file extension (e.g. .html, .sql) are configured in your
+			Prefs.xml, allowing AtomineerUtils to correctly insert simple "boilerplate" comments into
+			any file format.
+		-->
+		<catchall>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+		</catchall>
+
+		<!--
+			Default namespace comment. As with file comments, you can use plain-text or XML commenting for
+			this entry.
+		-->
+		<namespace>
+			// namespace: %name%
+			//
+			// summary:	%namespaceDescription%
+		</namespace>
+
+		<!-- Example XML namespace comment.
+		<namespace>
+			<prototype/>
+			<_/>
+			<summary/>
+		</namespace>
+		-->
+
+		<typedef>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</typedef>
+
+		<enum>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</enum>
+
+		<bitfield>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</bitfield>
+
+		<struct>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</struct>
+
+		<union>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</union>
+
+		<class>
+			<summary />
+			<_ />
+			<content />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</class>
+
+		<interface>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</interface>
+
+		<module>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</module>
+
+		<def>				<!-- C/C++ #define macro -->
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</def>
+
+		<method>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</method>
+
+		<property>
+			<summary />
+			<_ />
+			<remarks />
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<value />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</property>
+
+		<indexer>
+			<summary />
+			<_ />
+			<remarks />
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</indexer>
+
+		<delegate>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</delegate>
+
+		<constructor>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</constructor>
+
+		<destructor>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</destructor>
+
+		<finaliser>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</finaliser>
+
+		<operator>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</operator>
+
+		<eventhandler>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</eventhandler>
+
+		<eventsender>
+			<summary />
+			<_ />
+			<remarks>%user%, %date%</remarks>
+			<_ />
+			<exception />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</eventsender>
+
+		<!-- Template for member variables -->
+		<member>
+			<summary />
+			<_ />
+			<inheritdoc />
+		</member>
+
+		<!-- Templates for methods in abstract classes and interfaces -->
+		<interfacemethod>
+			<summary />
+			<_ />
+			<remarks />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</interfacemethod>
+
+		<interfaceproperty>
+			<summary />
+			<_ />
+			<remarks />
+			<_ />
+			<value />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</interfaceproperty>
+
+		<interfaceindexer>
+			<summary />
+			<_ />
+			<remarks />
+			<_ />
+			<param />
+			<_ />
+			<returns />
+			<_ />
+			<example />
+			<_ />
+			<seealso />
+			<inheritdoc />
+		</interfaceindexer>
+
+	</DocXmlTemplates>

@@ -1,0 +1,36 @@
+﻿<Enums>
+  <!--
+		AutoDoc rules
+		=============
+
+		For each documentation entry that needs to be generated, Atomineer executes an appropriate
+		section of the rules in this AutoDoc section (e.g. for a parameter, the <Parameters> section
+		is executed). Execution stops when a match is found and a documentation result is returned.
+
+		Full documentation can be found in the Atomineer user manual.
+		-->
+			<!-- Rules used for enums
+
+				 Full documentation can be found in the Atomineer user manual.
+
+				 Note that you can delete all the examples, and as long as this section does not
+				 end with a <Set> command, Atomineer will "fall through" your custom rules and 
+				 use its defaults if your rules do not supply any documentation text.
+
+				 Additional values that can be used for filtering/documenting include:
+					name			The name of the parameter
+					namenp			The name of the parameter, with known prefixes removed
+					sName			The name of the parameter, converted to sentence (space separated words) format, with abbreviated words expanded
+					specialType		Extra info on the enum: enum, bitfield
+					word1			The first word of the parameter (often used for prefixes, e.g. m_, lpsz, etc)
+					coreName		The name with the first word removed (to allow processing of prefixed names)
+			 -->
+
+			<If specialType="bitfield">
+				<If sName="# Options" desc="A bit-field of flags for specifying %sname:Plural%" />
+				<If sName="Options Flags,Option Flags" desc="A bit-field of flags for specifying options" />
+				<If sName="# Options Flags,# Option Flags,# Flags" desc="A bit-field of flags for specifying %match:Sentence% options" />
+				<Set desc="A bit-field of flags for specifying %sname:Plural%" />
+			</If>
+			<Set desc="Values that represent %sname:Plural%" />
+		</Enums>
