@@ -1,2 +1,2 @@
 # AtomineerSettings
-Atomineer Settings
+On Windows, copy these files to C:\Users\{user}\Documents\Atomineer
